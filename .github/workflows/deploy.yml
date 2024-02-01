@@ -1,0 +1,41 @@
+name: Deploy Lambda Function
+
+on:
+  push:
+    branches:
+      - aws_lambda
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ vars.AWS_REGION }}
+        role-to-assume: ${{ secrets.AWS_ASSUME_ROLE }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Build Docker Image
+      run: docker build --platform linux/amd64 -t json-parquet ./lambda_container
+
+    - name: Tag Docker Image
+      run: docker tag json-parquet:latest ${{ steps.login-ecr.outputs.registry }}/json-parquet:latest
+
+    - name: Push Docker Image to ECR
+      run: docker push ${{ steps.login-ecr.outputs.registry }}/json-parquet:latest
+
+    - name: Update Lambda Image to Latest 
+      run: |
+        aws lambda update-function-code \
+            --function-name func_json_to_parquet \
+            --image-uri ${{ vars.AWS_DOCKER_IMAGE }}:latest
