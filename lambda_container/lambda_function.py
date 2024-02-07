@@ -18,7 +18,7 @@ def remove_accents(input_str):
 def handler(event, context):
     bucket, key = object_fm_sqs(event)
     json_data = object_to_json(bucket, key)
-    df_job = json_flatten(json_data)
+    df_job = json_flatten(key, json_data)
     upload_s3(bucket, key, df_job)
 
 def object_fm_sqs(event):
@@ -45,13 +45,19 @@ def object_to_json(bucket, key):
         raise e
     return json_data
 
-def json_flatten(json_data):
+def json_flatten(key, json_data):
     try:
         job_detail = list(flatsplode(json_data))
         df_job = pd.DataFrame(job_detail)
         for c in df_job.columns:
             if df_job[c].dtype == 'object':
                 df_job[c] = df_job[c].apply(remove_accents)
+
+        # Add post_date
+        # jobsdb/raw/2024/02/04/72723219.json
+        key_split = key.split('/')
+        job_date = "{0}-{1}-{2}".format(key_split[-4], key_split[-3], key_split[-2])
+        df_job['job_post_date'] = job_date
 
     except Exception as e:
         print(e)
