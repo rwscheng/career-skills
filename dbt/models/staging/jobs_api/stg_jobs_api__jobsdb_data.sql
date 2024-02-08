@@ -15,6 +15,7 @@ with source_data as (
         "result.job.tracking.isPrivateAdvertiser" as is_private_advertiser,
         "result.job.tracking.locationInfo.locationIds" as location_id,
         "result.job.location.label" as location_label,
+        "result.job.products.bullets" as job_bullet,
         "result.job.tracking.workTypeIds" as work_type_id,
         "result.job.id" as job_id,
         "result.job.title" as job_title,
@@ -26,9 +27,9 @@ with source_data as (
         "result.job.workTypes.label" as work_type_label,
         "result.job.advertiser.id" as advertiser_id,
         "result.job.advertiser.name" as advertiser_name,
-        "result.learningInsights.analytics.title" as insight_title
-    from RAW_JOBS.JOBSDB.DATA
-    LIMIT 100
+        "result.learningInsights.analytics.title" as insight_title,
+        JOB_POST_DATE
+    from {{ source('jobs_api', 'DATA') }}
 )
 
 select *
