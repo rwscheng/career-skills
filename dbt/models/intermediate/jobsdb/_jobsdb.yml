@@ -1,9 +1,0 @@
-
-version: 2
-
-models:
-    - name: int_jobs_availability
-      description: "A dbt model to group the jobs by sub-class"
-      tests:
-        - unique:
-            column_name: "(JOB_POST_DATE || '-' || sub_classification_id)"
