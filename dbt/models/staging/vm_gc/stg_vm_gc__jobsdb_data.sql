@@ -29,7 +29,7 @@ with source_data as (
         "result.job.advertiser.name" as advertiser_name,
         "result.learningInsights.analytics.title" as insight_title,
         JOB_POST_DATE
-    from {{ source('jobs_api', 'DATA') }}
+    from {{ source('vm_gc', 'DATA') }}
 )
 
 select *

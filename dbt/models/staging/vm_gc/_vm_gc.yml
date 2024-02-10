@@ -2,5 +2,5 @@
 version: 2
 
 models:
-    - name: stg_jobs_api__jobsdb_data
+    - name: stg_vm_gc__jobsdb_data
       description: "A dbt model having the raw data of jobsdb"

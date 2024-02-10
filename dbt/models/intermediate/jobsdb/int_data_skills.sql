@@ -6,7 +6,7 @@ with jobs_detail as (
         job_id,
         job_title,
         lower(detail) as detail
-    from {{ref("stg_jobs_api__jobsdb_data")}}
+    from {{ref("stg_vm_gc__jobsdb_data")}}
 ), jobs_data_skills as (
     select 
         job_id,
@@ -68,7 +68,7 @@ with jobs_detail as (
             then 1 else 0
         end as "databrick",
         case 
-            when detail like '%ai%'
+            when detail like '% ai %' or detail like '% a.i %'
             then 1 else 0
         end as "ai",
         case 

@@ -7,7 +7,7 @@ with jobs_subclass as (
         job_id,
         sub_classification_id,
         sub_classification_info
-    from {{ref("stg_jobs_api__jobsdb_data")}}
+    from {{ref("stg_vm_gc__jobsdb_data")}}
 ), jobs_subclass_grouped as (
     select 
         JOB_POST_DATE,
