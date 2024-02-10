@@ -5,4 +5,4 @@ sources:
     database: RAW_JOBS
     schema: JOBSDB   # the schema the raw data was loaded into
     tables:
-      - name: DATAß
+      - name: DATA

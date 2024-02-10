@@ -34,7 +34,7 @@ with data_skills as (
     select
         job_group,
         skills,
-        sum(required) as "total_job_required"
+        sum(required) as total_job_required
     from data_skills_job_groups
     group by 1,2 
 )
