@@ -1,14 +1,28 @@
--- This model is to group data job title by skills
-
-with data_skills as (
+with jobs_detail as (
     select 
+        classification_id,
+        classification_info,
+        classification_label,
+        sub_classification_id,
+        sub_classification_info,
+        has_role_requirement,
+        is_private_advertiser,
+        location_id,
+        location_label,
+        job_bullet,
+        work_type_id,
         job_id,
         job_title,
-        skills,
-        required    
-    from {{ ref("int_data_skills_unpivot")}}
-), data_skills_job_groups as (
-    select 
+        is_link_out,
+        is_verified,
+        abstract,
+        detail,
+        status,
+        work_type_label,
+        advertiser_id,
+        advertiser_name,
+        insight_title,
+        job_post_date,
         case 
             when lower(job_title) like '%programmer%' then 'programmer'
             when lower(job_title) like '%developer%' then 'developer'
@@ -25,18 +39,15 @@ with data_skills as (
             when lower(job_title) like '%devops%' then 'devops_engineer'
         else 'others'
         end as job_group,
-        job_id,
-        job_title,
-        skills,
-        required
-    from data_skills
-), summarize_data_skills_per_group as (
-    select
-        job_group,
-        skills,
-        sum(required) as total_job_required
-    from data_skills_job_groups
-    group by 1,2 
+        case
+            when lower(job_title) like '%sr %' 
+                or lower(job_title) like '%senior%'
+                then 'senior'
+            when lower(job_title) like '%manager%' 
+                then 'management'
+            else 'junior'
+        end as job_grading
+    from {{ ref("stg_vm_gc__jobsdb_data")}}
 )
 
-select * from summarize_data_skills_per_group
+select * from jobs_detail

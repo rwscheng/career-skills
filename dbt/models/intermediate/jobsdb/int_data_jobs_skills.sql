@@ -4,13 +4,11 @@ with jobs_detail as (
     select 
         distinct 
         job_id,
-        job_title,
         lower(detail) as detail
-    from {{ref("stg_vm_gc__jobsdb_data")}}
+    from {{ref("int_jobsdb_data")}}
 ), jobs_data_skills as (
     select 
         job_id,
-        job_title,
         case 
             when detail like '%aws%'
             then 1 else 0

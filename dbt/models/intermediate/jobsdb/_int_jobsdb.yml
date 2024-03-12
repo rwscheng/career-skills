@@ -6,7 +6,7 @@ models:
       description: "A dbt model to group the jobs by sub-class"
       tests:
         - unique:
-            column_name: "(JOB_POST_DATE || '-' || sub_classification_id)"
+            column_name: "(JOB_POST_DATE || '-' || job_group  || '-' || job_grading)"
 
     - name: int_data_skills
       description: "A dbt model to show the required skills for Data Jobs"
