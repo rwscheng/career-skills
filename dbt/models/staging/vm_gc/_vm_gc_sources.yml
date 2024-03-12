@@ -1,0 +1,8 @@
+config-version: 2
+version: 2
+sources:
+  - name: vm_gc     # the name we want to reference this source by
+    database: RAW_JOBS
+    schema: JOBSDB   # the schema the raw data was loaded into
+    tables:
+      - name: DATA

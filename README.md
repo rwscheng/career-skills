@@ -23,3 +23,7 @@ The things you need before installing the software.
 * AWS account
 * DBT cloud/ core
 * snowflake account
+
+### Data Analytics
+Power BI is used for the analytics.
+

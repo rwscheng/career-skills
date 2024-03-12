@@ -1,0 +1,6 @@
+
+version: 2
+
+models:
+    - name: data_important_skills
+      description: "To show the most important skills for a data job"
