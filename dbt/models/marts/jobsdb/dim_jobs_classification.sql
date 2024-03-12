@@ -1,8 +1,7 @@
 with extract_jobs_classifiction as (
-    select 
+    select distinct
         classification_id,
-        classification_info,
-        classification_label
+        classification_info
     from {{ ref('int_jobsdb_data')}}
 )
 

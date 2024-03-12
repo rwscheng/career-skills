@@ -1,5 +1,5 @@
 with extract_location as (
-    select 
+    select distinct
         location_id,
         location_label
     from {{ ref('int_jobsdb_data')}}

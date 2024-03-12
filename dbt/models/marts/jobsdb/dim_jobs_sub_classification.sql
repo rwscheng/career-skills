@@ -1,5 +1,5 @@
 with extract_jobs_sub_classifiction as (
-    select 
+    select distinct
         sub_classification_id,
         sub_classification_info
     from {{ ref('int_jobsdb_data')}}
